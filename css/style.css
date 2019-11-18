@@ -16,8 +16,8 @@ button {
 
 body {
   font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+  color: #fff;
+  background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
 }
 
 header {
@@ -34,15 +34,19 @@ a {
   text-decoration: none;
 }
 
+p {
+  color:#6F9DDC;
+}
+
 /* ================================= 
   Form Element Styles
 ==================================== */
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.7);
-	border-radius: 3px;
+	background: #fff;
+	margin-bottom: 4.65em;
+	border-radius: 10px;
 }
 
 fieldset,
@@ -64,8 +68,9 @@ button {
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
+	border-top: 2px solid rgba(68, 142, 190, 0.8);
 	margin-bottom: 1.125em;
+	color: #6F9DDC;
 }
 
 input[type="text"],
@@ -89,7 +94,7 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #e9f6fb;
+	background: #f4f6f7;
 	border: 2px solid #6F9DDC;
 	border-radius: 3px;
 	outline: none;
@@ -97,7 +102,7 @@ input {
 
 input:focus {
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #20c9b7;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -109,16 +114,17 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: #6F9DDC;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
-	border: 2px solid black;
+	border: 2px solid rgb(90, 126, 177);
 	border-radius: 4px;
 	transition: all 0.5s;
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: #20c9b7;
+	border: 2px solid #1cb6a6;
 }
 
 input, 
