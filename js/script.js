@@ -12,11 +12,35 @@ $colors.attr('disabled', 'true').attr('hidden', 'true');
 // update color field to "Please select a T-shirt theme"
 $('#color').val('textbox');
 $('#color').prepend('<option value="selectTheme">Please select a T-shirt</option>');
+
+//choose design select element
+const $designSelectMenu = $('#design');
+
 //create change event listener on a design menu
-// if the user select JS Puns 
-// then display cornflower blue dark slate grey and gold
-// else if the user select I love JS
-// then display tomato steel blue and dim grey
+
+$designSelectMenu.change(function(event){
+    console.log($(event.target).val());
+    $colors.each(function(i){
+        if($(event.target).val() === 'js puns') { // if the user select JS Puns
+            console.log('hi i\'m working');
+            $('#color option[value="cornflowerblue"]').removeAttr('disabled').removeAttr('hidden');
+            $('#color option[value="darkslategrey"]').removeAttr('disabled').removeAttr('hidden');
+            $('#color option[value="gold"]').removeAttr('disabled').removeAttr('hidden');  
+        }
+        if($(event.target).val() === 'heart js') { // if the user select JS Puns
+            console.log('hi i\'m working');
+            $('#color option[value="tomato"]').removeAttr('disabled').removeAttr('hidden');
+            $('#color option[value="steelblue"]').removeAttr('disabled').removeAttr('hidden');
+            $('#color option[value="dimgrey"]').removeAttr('disabled').removeAttr('hidden');  
+        }
+        
+        // else if the user select I love JS
+        // then display tomato steel blue and dim grey
+
+    });
+});
+
+
 
 
 
