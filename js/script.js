@@ -52,6 +52,11 @@ $designSelectMenu.change(function(event){
 
 //ACTIVITY SECTION
 
+//creating an element that displays total cost and append it to a page
+let totalCost = 0; //variable that will hold the total cost of users choosen activities
+const appendCost = $('.activities').append('<p>Total: $'+ totalCost +'</p>');
+
+//listen for a change in an activity section
 
 
 
