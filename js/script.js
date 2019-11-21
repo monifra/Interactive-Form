@@ -54,9 +54,21 @@ $designSelectMenu.change(function(event){
 
 //creating an element that displays total cost and append it to a page
 let totalCost = 0; //variable that will hold the total cost of users choosen activities
-const appendCost = $('.activities').append('<p>Total: $'+ totalCost +'</p>');
+const $appendCost = $('.activities').append('<p>Total: $'+ totalCost +'</p>');
 
-//listen for a change in an activity section
+const $activitiesParent =$('.activities');
+
+$activitiesParent.change(function(event){  //listen for a change in an activity section
+    const $activitiesCheckboxClicked = $(event.target); //selecting input elements in activities
+    console.log($activitiesCheckboxClicked);
+    const $checkedCost = $activitiesCheckboxClicked.attr('data-cost');
+    console.log($checkedCost);
+    const $newCheckedCost = $checkedCost.replace(/[^0-9]/, ''); //every character that is not a number will be removed from a string
+    console.log($newCheckedCost);
+    $newCheckedCostNumber = parseFloat($newCheckedCost); //change variable to a number
+    console.log($newCheckedCostNumber);
+});
+
 
 
 
