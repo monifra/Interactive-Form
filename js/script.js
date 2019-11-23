@@ -69,10 +69,10 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     //console.log($newCheckedCostNumber);
     
     const $activitiesTime = $activitiesCheckboxClicked.attr('data-day-and-time');
-    console.log($activitiesTime);
+    // console.log($activitiesTime);
 
     const $checkbox = $('.activities input');
-    console.log($checkbox);
+    // console.log($checkbox);
 
     let $costText = $('.activities p'); //selecting p that is holding cost value
 
@@ -95,9 +95,10 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
         if($($currentActivity).attr('data-day-and-time') === $activitiesTime && $($activitiesCheckboxClicked).attr('name') !== $($currentActivity).attr('name')){
             if($activitiesCheckboxClicked.prop('checked')){
                 $($currentActivity).attr('disabled', true);
-                
+                $($currentActivity).parent().css('color', '#dddfe0');
             }else{
                 $($currentActivity).removeAttr('disabled');
+                $($currentActivity).parent().css('color', 'black');
             }
         }
     });
