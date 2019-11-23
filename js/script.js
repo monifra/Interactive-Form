@@ -67,6 +67,17 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     console.log($newCheckedCost);
     $newCheckedCostNumber = parseFloat($newCheckedCost); //change variable to a number
     console.log($newCheckedCostNumber);
+    
+    let $costText = $('.activities p'); //selecting p that is holding cost value
+
+    if($activitiesCheckboxClicked.prop('checked')){ // if checkbox is checked
+        totalCost += $newCheckedCostNumber; // add the cost
+        $costText.text('Total: $' + totalCost); //display the cost
+    }else{ // checkbox not checked
+        totalCost -= $newCheckedCostNumber; // substract the cost
+        $costText.text('Total: $' + totalCost);  //display the cost 
+    };
+    console.log(totalCost);
 });
 
 
