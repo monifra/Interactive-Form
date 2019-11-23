@@ -90,12 +90,14 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
         console.log($currentActivity);
         const $currentActivityTime = $($currentActivity).attr('data-day-and-time');
         
-        console.log($currentActivityTime);
+        console.log($currentActivityTime)
+        
         if($($currentActivity).attr('data-day-and-time') === $activitiesTime && $activitiesCheckboxClicked !== $currentActivity){
             if($activitiesCheckboxClicked){
-            $($currentActivity).attr('disabled', true);
+                $($currentActivity).attr('disabled', true);
+                $($activitiesCheckboxClicked).removeAttr('disabled');
             }else{
-            $($currentActivity).removeAttr('disabled');
+                // $($currentActivity).removeAttr('disabled');
             }
         }
     });
