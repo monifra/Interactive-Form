@@ -60,7 +60,7 @@ const $activitiesParent =$('.activities');
 
 $activitiesParent.change(function(event){  //listen for a change in an activity section
     const $activitiesCheckboxClicked = $(event.target); //selecting input elements in activities
-    //console.log($activitiesCheckboxClicked);
+    console.log($activitiesCheckboxClicked);
     const $checkedCost = $activitiesCheckboxClicked.attr('data-cost');
     //console.log($checkedCost);
     const $newCheckedCost = $checkedCost.replace(/[^0-9]/, ''); //every character that is not a number will be removed from a string
@@ -72,7 +72,8 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     console.log($activitiesTime);
 
     const $checkbox = $('.activities input');
-    
+    console.log($checkbox);
+
     let $costText = $('.activities p'); //selecting p that is holding cost value
 
     if($activitiesCheckboxClicked.prop('checked')){ // if checkbox is checked
@@ -87,17 +88,16 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     $checkbox.each(function(i){ //looping over all of the inputs
         const $currentActivity = $checkbox[i];
 
-        console.log($currentActivity);
-        const $currentActivityTime = $($currentActivity).attr('data-day-and-time');
+        // console.log($currentActivity);
         
-        console.log($currentActivityTime)
+        // console.log($currentActivityTime);
         
         if($($currentActivity).attr('data-day-and-time') === $activitiesTime && $activitiesCheckboxClicked !== $currentActivity){
-            if($activitiesCheckboxClicked){
+            if($activitiesCheckboxClicked.prop('checked')){
                 $($currentActivity).attr('disabled', true);
-                $($activitiesCheckboxClicked).removeAttr('disabled');
+                // $($activitiesCheckboxClicked).removeAttr('disabled');
             }else{
-                // $($currentActivity).removeAttr('disabled');
+                $($currentActivity).removeAttr('disabled');
             }
         }
     });
