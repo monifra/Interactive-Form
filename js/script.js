@@ -60,13 +60,18 @@ const $activitiesParent =$('.activities');
 
 $activitiesParent.change(function(event){  //listen for a change in an activity section
     const $activitiesCheckboxClicked = $(event.target); //selecting input elements in activities
-    console.log($activitiesCheckboxClicked);
+    //console.log($activitiesCheckboxClicked);
     const $checkedCost = $activitiesCheckboxClicked.attr('data-cost');
-    console.log($checkedCost);
+    //console.log($checkedCost);
     const $newCheckedCost = $checkedCost.replace(/[^0-9]/, ''); //every character that is not a number will be removed from a string
-    console.log($newCheckedCost);
+    //console.log($newCheckedCost);
     $newCheckedCostNumber = parseFloat($newCheckedCost); //change variable to a number
-    console.log($newCheckedCostNumber);
+    //console.log($newCheckedCostNumber);
+    
+    const $activitiesTime = $activitiesCheckboxClicked.attr('data-day-and-time');
+    console.log($activitiesTime);
+
+    const $checkbox = $('.activities input');
     
     let $costText = $('.activities p'); //selecting p that is holding cost value
 
@@ -76,8 +81,24 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     }else{ // checkbox not checked
         totalCost -= $newCheckedCostNumber; // substract the cost
         $costText.text('Total: $' + totalCost);  //display the cost 
-    };
-    console.log(totalCost);
+    }
+    //console.log(totalCost);
+
+    $checkbox.each(function(i){ //looping over all of the inputs
+        const $currentActivity = $checkbox[i];
+
+        console.log($currentActivity);
+        const $currentActivityTime = $($currentActivity).attr('data-day-and-time');
+        
+        console.log($currentActivityTime);
+        if($($currentActivity).attr('data-day-and-time') === $activitiesTime && $activitiesCheckboxClicked !== $currentActivity){
+            if($activitiesCheckboxClicked){
+            $($currentActivity).attr('disabled', true);
+            }else{
+            $($currentActivity).removeAttr('disabled');
+            }
+        }
+    });
 });
 
 

@@ -2,7 +2,7 @@
   Base Element Styles
 ==================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Nunito|Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Nunito|Roboto+Mono|Kulim+Park');
 
 * {
   box-sizing: border-box;
@@ -11,7 +11,7 @@
 body,
 input,
 button {
-	font-family: 'Nunito', sans-serif;
+	font-family: 'Kulim Park', sans-serif;
 }
 
 body {
