@@ -103,13 +103,80 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
         }
     });
 });
-
-
-
-
-
-
+//PAYMENT INFORMATION
 
 //hide the 'Select Payment Method' option from drop down menu
 const $selectPaymentMethod = $('#payment>option[value="select method"]');
 $selectPaymentMethod.attr('disabled', 'true').attr('hidden', 'true');
+
+$creditCard = $('#credit-card');
+$payPal = $('#paypal');
+$bitcoin = $('#bitcoin');
+
+$('#payment').val('Credit Card');
+$creditCard.prop('selected', 'true');
+
+$payPal.attr('hidden', 'true');
+$bitcoin.attr('hidden', 'true');
+
+$paymentSelectMenu = $('#payment');
+const $payments = $('#payment>option');
+
+$paymentSelectMenu.change(function(event){
+    console.log($(event.target).val());
+    
+        if($(event.target).val() === 'Credit Card') { 
+
+            $creditCard.removeAttr('hidden').prop('selected', 'true');
+            $payPal.attr('hidden', 'true');
+            $bitcoin.attr('hidden', 'true');
+        }
+        if($(event.target).val() === 'PayPal') { 
+            
+            $payPal.removeAttr('hidden').prop('selected', 'true');;
+            $creditCard.attr('hidden', 'true');
+            $bitcoin.attr('hidden', 'true');
+            
+        }
+        if($(event.target).val() === 'Bitcoin'){
+            $bitcoin.removeAttr('hidden').prop('selected', 'true');;
+            $creditCard.attr('hidden', 'true');
+            $payPal.attr('hidden', 'true');
+        }
+
+});
+
+//FORM VALIDATION & VALIDATION MESSAGES
+
+const validateName = () =>{
+    $nameInput = $('#name');
+    if($($nameInput).val()===''){
+        alert('empty name');
+    }else{}
+};
+const validateEmail = () =>{};
+const validateActivity = () =>{};
+
+/***
+ ONLY VALIDATED IF THE PAYMENT METHOD IS "CREDIT CARD"
+ ***/
+const validateCreditCardNumber = () =>{};
+const validateZipCode = () =>{};
+const validateCVV = ()=>{};
+
+const validateAll = () => {
+    if($validateName() === false || validateEmail() === false || validateActivity() === false){
+        event.preventDefault();
+        if($($creditCard).prop() === 'selected' && validateCreditCardNumber() === false || validateZipCode() === false || validateCVV() === false)
+    }
+
+};
+
+$form = $('form');
+
+$form.submit(function(event){
+  if($validateAll() === false){
+      event.preventDefault();
+  }
+
+});
