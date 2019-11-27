@@ -148,28 +148,42 @@ $paymentSelectMenu.change(function(event){
 
 //FORM VALIDATION & VALIDATION MESSAGES
 
-const validateName = () =>{
+const $validateName = () =>{
     $nameInput = $('#name');
     if($($nameInput).val()===''){
         alert('empty name');
-    }else{}
+        return false;
+    }else{
+        alert('name is working');
+        return true;
+    }
 };
-const validateEmail = () =>{};
-const validateActivity = () =>{};
+const $validateEmail = () =>{
+    $emailInput = $('#mail');
+    if($($emailInput).val()===/^[^@]+@[^@.]+\.[a-z]+$/i){
+        alert('not a valid email');
+        return false;
+    }else{
+        alert('email is working');
+        return true;
+    }
+};
+const $validateActivity = () =>{};
 
 /***
  ONLY VALIDATED IF THE PAYMENT METHOD IS "CREDIT CARD"
  ***/
-const validateCreditCardNumber = () =>{};
-const validateZipCode = () =>{};
-const validateCVV = ()=>{};
 
-const validateAll = () => {
-    if($validateName() === false || validateEmail() === false || validateActivity() === false){
+const $validateCreditCardNumber = () =>{};
+const $validateZipCode = () =>{};
+const $validateCVV = ()=>{};
+
+const $validateAll = () => {
+    if($validateName() === false || $validateEmail() === false || $validateActivity() === false){
         event.preventDefault();
-        if($($creditCard).prop() === 'selected' && validateCreditCardNumber() === false || validateZipCode() === false || validateCVV() === false)
+        if($($creditCard).prop() === 'selected' && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false)
+        event.preventDefault();
     }
-
 };
 
 $form = $('form');
