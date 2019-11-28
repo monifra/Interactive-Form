@@ -60,7 +60,7 @@ const $activitiesParent =$('.activities');
 
 $activitiesParent.change(function(event){  //listen for a change in an activity section
     const $activitiesCheckboxClicked = $(event.target); //selecting input elements in activities
-    console.log($activitiesCheckboxClicked);
+    
     const $checkedCost = $activitiesCheckboxClicked.attr('data-cost');
     //console.log($checkedCost);
     const $newCheckedCost = $checkedCost.replace(/[^0-9]/, ''); //every character that is not a number will be removed from a string
@@ -148,7 +148,7 @@ $paymentSelectMenu.change(function(event){
 
 //FORM VALIDATION & VALIDATION MESSAGES
 
-const $validateName = () =>{
+const $validateName = () =>{ //name validation
     $nameInput = $('#name');
     if($($nameInput).val()===''){
         alert('empty name');
@@ -158,31 +158,79 @@ const $validateName = () =>{
         return true;
     }
 };
-const $validateEmail = () =>{
-    $emailInput = $('#mail');
-    if($($emailInput).val()===/^[^@]+@[^@.]+\.[a-z]+$/i){
-        alert('not a valid email');
-        return false;
-    }else{
+const $validateEmail = () =>{ //email validation
+    const $emailInputVal = $('#mail').val();
+    const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test($emailInputVal);
+    if(isValid){
         alert('email is working');
         return true;
+    }else{
+        alert('email is wrong');
+        return false;
     }
 };
-const $validateActivity = () =>{};
+
+const $validateActivity = () =>{ //activity validation
+    const $checkbox = $('.activities input');
+    const $currentActivityChecked=[];
+    $checkbox.each(function(i){ //looping over all of the inputs
+        if($($checkbox[i]).prop('checked')){
+            $currentActivityChecked.push($checkbox[i]);
+        }
+    });
+    if($currentActivityChecked.length > 0){
+        alert('activity validation is working');
+        return true;
+    }else{
+        alert('activity invalid');
+        return false;
+    }
+};
 
 /***
  ONLY VALIDATED IF THE PAYMENT METHOD IS "CREDIT CARD"
  ***/
 
-const $validateCreditCardNumber = () =>{};
-const $validateZipCode = () =>{};
-const $validateCVV = ()=>{};
+const $validateCreditCardNumber = () =>{ //credit card validation
+    const $cardInputVal = $('#cc-num').val();
+    const isValid = /^\d{13,16}$/.test($cardInputVal);
+    if(isValid){
+        alert('card validation is working');
+        return true;
+    }else{
+        alert('card validation invalid');
+        return false;
+    }
+};
+const $validateZipCode = () =>{
+    const $zipInputVal = $('#zip').val();
+    const isValid = /^\d{5}$/.test($zipInputVal);
+    if(isValid){
+        alert('zip validation is working');
+        return true;
+    }else{
+        alert('zip validation invalid');
+        return false;
+    }
+};
+const $validateCVV = ()=>{
+    const $cvvInputVal = $('#cvv').val();
+    const isValid = /^\d{3}$/.test($cvvInputVal);
+    if(isValid){
+        alert('cvv validation is working');
+        return true;
+    }else{
+        alert('cvv validation invalid');
+        return false;
+    }
+};
 
 const $validateAll = () => {
     if($validateName() === false || $validateEmail() === false || $validateActivity() === false){
-        event.preventDefault();
-        if($($creditCard).prop() === 'selected' && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false)
-        event.preventDefault();
+        event.preventDefault();   
+        if($($creditCard).prop('selected') && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false){
+            event.preventDefault();
+        }
     }
 };
 
