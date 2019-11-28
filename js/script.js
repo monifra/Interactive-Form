@@ -54,7 +54,7 @@ $designSelectMenu.change(function(event){
 
 //creating an element that displays total cost and append it to a page
 let totalCost = 0; //variable that will hold the total cost of users choosen activities
-const $appendCost = $('.activities').append('<p>Total: $'+ totalCost +'</p>');
+const $appendCost = $('.activities').append('<p class="cost">Total: $'+ totalCost +'</p>');
 
 const $activitiesParent =$('.activities');
 
@@ -74,7 +74,7 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     const $checkbox = $('.activities input');
     // console.log($checkbox);
 
-    let $costText = $('.activities p'); //selecting p that is holding cost value
+    let $costText = $('.cost'); //selecting p that is holding cost value
 
     if($activitiesCheckboxClicked.prop('checked')){ // if checkbox is checked
         totalCost += $newCheckedCostNumber; // add the cost
@@ -147,14 +147,13 @@ $paymentSelectMenu.change(function(event){
 });
 
 //FORM VALIDATION & VALIDATION MESSAGES
-
+//<p>Name field can't be empty</p> //Must be a valid email address //Choose at least one activity //
 const $validateName = () =>{ //name validation
     $nameInput = $('#name');
     if($($nameInput).val()===''){
-        alert('empty name');
+        $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput);
         return false;
     }else{
-        alert('name is working');
         return true;
     }
 };
@@ -162,10 +161,9 @@ const $validateEmail = () =>{ //email validation
     const $emailInputVal = $('#mail').val();
     const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test($emailInputVal);
     if(isValid){
-        alert('email is working');
         return true;
     }else{
-        alert('email is wrong');
+        $('<p class="error">Must be a valid email address</p>').insertAfter($('#mail'));
         return false;
     }
 };
@@ -179,10 +177,9 @@ const $validateActivity = () =>{ //activity validation
         }
     });
     if($currentActivityChecked.length > 0){
-        alert('activity validation is working');
         return true;
     }else{
-        alert('activity invalid');
+        $('<p class="error">Choose at least one activity</p>').insertAfter($('.activities legend'));
         return false;
     }
 };
