@@ -4,7 +4,20 @@ $inputName.focus(); //focusing on a first input after page load
 //OTHER JOB SECTION
 
 const $inputOtherJobRole = $('#other-title');
-$inputOtherJobRole.hide(); //hidding other job input field
+$inputOtherJobRole.attr('hidden', 'true'); //hidding other job input field
+console.log($inputOtherJobRole);
+const $jobSelectMenu = $('#title');
+const $jobs = $('#title>option');
+
+$jobSelectMenu.change(function(event){
+    $jobs.each(function(i){
+        if($(event.target).val() === 'other'){
+            $inputOtherJobRole.removeAttr('hidden');
+        }else{
+            $inputOtherJobRole.attr('hidden', 'true');
+        }
+    });
+});
 
 //T-SHIRT SECTION
 //hide select theme in a drop down menu
@@ -32,7 +45,7 @@ $designSelectMenu.change(function(event){
             $('#color option[value="cornflowerblue"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="darkslategrey"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="gold"]').removeAttr('disabled').removeAttr('hidden');
-            $('#color option[value="tomato"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
+            $('#color option[value="tomato"]').attr('disabled', 'true').attr('hidden', 'true').removeProp('selected');
             $('#color option[value="steelblue"]').attr('disabled', 'true').attr('hidden', 'true');
             $('#color option[value="dimgrey"]').attr('disabled', 'true').attr('hidden', 'true');
             
@@ -43,7 +56,7 @@ $designSelectMenu.change(function(event){
             $('#color option[value="tomato"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="steelblue"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="dimgrey"]').removeAttr('disabled').removeAttr('hidden');
-            $('#color option[value="cornflowerblue"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
+            $('#color option[value="cornflowerblue"]').attr('disabled', 'true').attr('hidden', 'true').removeProp('selected');
             $('#color option[value="darkslategrey"]').attr('disabled', 'true').attr('hidden', 'true');
             $('#color option[value="gold"]').attr('disabled', 'true').attr('hidden', 'true');
         }
@@ -124,7 +137,7 @@ const $payments = $('#payment>option');
 
 $paymentSelectMenu.change(function(event){
     console.log($(event.target).val());
-    
+
         if($(event.target).val() === 'Credit Card') { 
 
             $creditCard.removeAttr('hidden').prop('selected', 'true');
@@ -147,7 +160,7 @@ $paymentSelectMenu.change(function(event){
 });
 
 //FORM VALIDATION & VALIDATION MESSAGES
-//<p>Name field can't be empty</p> //Must be a valid email address //Choose at least one activity //
+
 const $validateName = () =>{ //name validation
     $nameInput = $('#name');
     if($($nameInput).val()===''){
