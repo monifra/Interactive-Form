@@ -192,10 +192,9 @@ const $validateCreditCardNumber = () =>{ //credit card validation
     const $cardInputVal = $('#cc-num').val();
     const isValid = /^\d{13,16}$/.test($cardInputVal);
     if(isValid){
-        alert('card validation is working');
         return true;
     }else{
-        alert('card validation invalid');
+        $('<p class="error">Credit card number must have between 13 and 16 numbers</p>').insertAfter($('#cc-num'));
         return false;
     }
 };
@@ -203,10 +202,9 @@ const $validateZipCode = () =>{
     const $zipInputVal = $('#zip').val();
     const isValid = /^\d{5}$/.test($zipInputVal);
     if(isValid){
-        alert('zip validation is working');
         return true;
     }else{
-        alert('zip validation invalid');
+        $('<p class="error">Zip Code must be 5-digit number</p>').insertAfter($('#zip'));
         return false;
     }
 };
@@ -214,20 +212,17 @@ const $validateCVV = ()=>{
     const $cvvInputVal = $('#cvv').val();
     const isValid = /^\d{3}$/.test($cvvInputVal);
     if(isValid){
-        alert('cvv validation is working');
         return true;
     }else{
-        alert('cvv validation invalid');
+        $('<p class="error">CVV must be exactly 3 digits long</p>').insertAfter($('#cvv'));
         return false;
     }
 };
 
 const $validateAll = () => {
-    if($validateName() === false || $validateEmail() === false || $validateActivity() === false){
-        event.preventDefault();   
-        if($($creditCard).prop('selected') && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false){
-            event.preventDefault();
-        }
+    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || 
+    $($creditCard).prop('selected') && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false){
+        return false;
     }
 };
 
@@ -237,5 +232,4 @@ $form.submit(function(event){
   if($validateAll() === false){
       event.preventDefault();
   }
-
 });
