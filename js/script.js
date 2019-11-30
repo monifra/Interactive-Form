@@ -40,7 +40,6 @@ $designSelectMenu.change(function(event){
     $('#color option[value="selectTheme"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
     $colors.each(function(i){
         if($(event.target).val() === 'js puns') { // if the user select JS Puns than display cornflowerblue, darkslategrey,gold
-            console.log('hi i\'m working');
             
             $('#color option[value="cornflowerblue"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="darkslategrey"]').removeAttr('disabled').removeAttr('hidden');
@@ -51,7 +50,6 @@ $designSelectMenu.change(function(event){
             
         }
         if($(event.target).val() === 'heart js') { // else if the user select I love JS then display tomato steel blue and dim grey
-            console.log('hi i\'m working');
             
             $('#color option[value="tomato"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="steelblue"]').removeAttr('disabled').removeAttr('hidden');
@@ -170,6 +168,7 @@ const $validateName = () =>{ //name validation
         return true;
     }
 };
+
 const $validateEmail = () =>{ //email validation
     const $emailInputVal = $('#mail').val();
     const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test($emailInputVal);
@@ -232,17 +231,61 @@ const $validateCVV = ()=>{
     }
 };
 
+
+const $validatePayment = ()=>{
+    if ($paymentSelectMenu.val() == "PayPal" || "Bitcoin") {
+    return true;
+    } else {
+        return false;
+    }
+  };
+
+
+const $validateCreditCard=()=>{
+    if($($paymentSelectMenu).val() === 'Credit Card' && $validateCreditCardNumber() === false){
+        return false;
+    }else if($($paymentSelectMenu).val() === 'Credit Card' && $validateZipCode() === false ){
+        return false;
+    }else if($($paymentSelectMenu).val() === 'Credit Card' && $validateCVV() === false){
+        return false;
+    }else{
+        return true;
+    }
+};
+
+
 const $validateAll = () => {
-    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || 
-    $($creditCard).prop('selected') && $validateCreditCardNumber() === false || $validateZipCode() === false || $validateCVV() === false){
+    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || $validateCreditCard()=== false || $validatePayment() === false){
         return false;
     }
 };
 
+
+const $validateEmpty = () => {
+    if($validateName() === false && $validateEmail() === false && $validateActivity() === false && $validateCreditCard()=== false && $validateZipCode() === false && $validateCVV() === false && $validatePayment() === false){
+        
+        return false;
+    }
+    
+};
+
+
 $form = $('form');
 
+
 $form.submit(function(event){
-  if($validateAll() === false){
-      event.preventDefault();
-  }
+    if($validateEmpty() === false){
+        
+        event.preventDefault();
+    } 
+    if($validateAll() === false){
+        event.preventDefault();
+    }  
 });
+
+// $nameP = $('#name p');
+// $nameP.attr('hidden', 'true');
+
+// TO DO DON't DISPLAY NAME VALIDATION TWICE
+
+
