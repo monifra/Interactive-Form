@@ -1,19 +1,25 @@
 /***
 VARIABLES
 ***/
-
-const $inputName = $('#name');
-$inputName.focus(); //focusing on a first input after page load
-
-/***
-OTHER JOB SECTION
-***/
-const $inputOtherJobRole = $('#other-title');
-$inputOtherJobRole.attr('hidden', 'true'); //hiding other job input field
-console.log($inputOtherJobRole);
+const $inputName = $('#name').focus(); //focusing on a first input after page load
+//other job section
+const $inputOtherJobRole = $('#other-title').attr('hidden', 'true'); //hiding other job input field
 const $jobSelectMenu = $('#title');
 const $jobs = $('#title>option');
-
+//t-shirt section 
+const $selectThemeOption = $('#design>option:first-child').attr('disabled', 'true').attr('hidden', 'true'); //hide select theme in a drop down menu
+const $colors = $('#color>option').attr('disabled', 'true').attr('hidden', 'true'); //select colors & hide the colors in a drop down menu
+const $updateColorTextbox =$('#color').val('textbox');
+const $addColorOption =$('#color').prepend('<option value="selectTheme">Please select a T-shirt</option>'); // update color field to "Please select a T-shirt theme"
+const $designSelectMenu = $('#design'); //choose design select element
+//avtivity section
+//creating an element that displays total cost and append it to a page
+let totalCost = 0; //variable that will hold the total cost of users choosen activities
+const $appendCost = $('.activities').append('<p class="cost">Total: $'+ totalCost +'</p>'); //appending to a page cost paragraph
+const $activitiesParent =$('.activities');
+/***
+OTHER JOB SECTION EVENT HANDLER
+***/
 $jobSelectMenu.change(function(event){ //if there is a change in job select menu
     $jobs.each(function(i){
         if($(event.target).val() === 'other'){ //if other option selected
@@ -25,19 +31,8 @@ $jobSelectMenu.change(function(event){ //if there is a change in job select menu
 });
 
 /***
-T-SHIRT SECTION
+T-SHIRT SECTION EVENT HANDLER
 ***/
-const $selectThemeOption = $('#design>option:first-child'); //hide select theme in a drop down menu
-$selectThemeOption.attr('disabled', 'true').attr('hidden', 'true'); // hide the colors in a drop down menu
-
-const $colors = $('#color>option');
-$colors.attr('disabled', 'true').attr('hidden', 'true');
-
-$('#color').val('textbox'); // update color field to "Please select a T-shirt theme"
-$('#color').prepend('<option value="selectTheme">Please select a T-shirt</option>');
-
-const $designSelectMenu = $('#design'); //choose design select element
-
 $designSelectMenu.change(function(event){ //create change event listener on a design menu
     console.log($(event.target).val());
     $('#color option[value="selectTheme"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
@@ -65,31 +60,15 @@ $designSelectMenu.change(function(event){ //create change event listener on a de
 });
 
 /*** 
-ACTIVITY SECTION
+ACTIVITY SECTION EVENT HANDLER
  ***/
-
-//creating an element that displays total cost and append it to a page
-let totalCost = 0; //variable that will hold the total cost of users choosen activities
-const $appendCost = $('.activities').append('<p class="cost">Total: $'+ totalCost +'</p>');
-
-const $activitiesParent =$('.activities');
-
 $activitiesParent.change(function(event){  //listen for a change in an activity section
     const $activitiesCheckboxClicked = $(event.target); //selecting input elements in activities
-    
     const $checkedCost = $activitiesCheckboxClicked.attr('data-cost');
-    //console.log($checkedCost);
     const $newCheckedCost = $checkedCost.replace(/[^0-9]/, ''); //every character that is not a number will be removed from a string
-    //console.log($newCheckedCost);
-    $newCheckedCostNumber = parseFloat($newCheckedCost); //change variable to a number
-    //console.log($newCheckedCostNumber);
-    
+    const $newCheckedCostNumber = parseFloat($newCheckedCost); //change variable to a number
     const $activitiesTime = $activitiesCheckboxClicked.attr('data-day-and-time');
-    // console.log($activitiesTime);
-
     const $checkbox = $('.activities input');
-    // console.log($checkbox);
-
     let $costText = $('.cost'); //selecting p that is holding cost value
 
     if($activitiesCheckboxClicked.prop('checked')){ // if checkbox is checked
@@ -118,21 +97,17 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
 PAYMENT INFORMATION SECTION
  ***/
 
-const $selectPaymentMethod = $('#payment>option[value="select method"]'); //hide the 'Select Payment Method' option from drop down menu
-$selectPaymentMethod.attr('disabled', 'true').attr('hidden', 'true');
+const $selectPaymentMethod = $('#payment>option[value="select method"]').attr('disabled', 'true').attr('hidden', 'true'); //hide the 'Select Payment Method' option from drop down menu
+const $creditCard = $('#credit-card');
+const $payPal = $('#paypal');
+const $bitcoin = $('#bitcoin');
 
-$creditCard = $('#credit-card');
-$payPal = $('#paypal');
-$bitcoin = $('#bitcoin');
-
-$('#payment').val('Credit Card'); 
-$creditCard.prop('selected', 'true'); //set credit card as selected value
+const $selectedPaymentValue=$('#payment').val('Credit Card');  //set credit card as selected value
 
 $payPal.attr('hidden', 'true'); //hide paypal payment info
 $bitcoin.attr('hidden', 'true'); //hide bitcoin payment info
 
-$paymentSelectMenu = $('#payment');
-const $payments = $('#payment>option');
+const $paymentSelectMenu = $('#payment');
 
 $paymentSelectMenu.change(function(event){  //change event handler that shows and hides informations about chosen payment option
     console.log($(event.target).val());
@@ -160,12 +135,19 @@ $paymentSelectMenu.change(function(event){  //change event handler that shows an
 /*** 
 FORM VALIDATION & VALIDATION MESSAGES
 ***/
+
+//adding validators messages to a page
+const $nameInput = $('#name');
+const $nameInputError = $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput).hide(); //error message for name input
+const $emailInputError = $('<p class="error">Must be a valid email address</p>').insertAfter($('#mail')).hide(); //error message for email input
+const $activitiesError = $('<p class="error">Choose at least one activity</p>').insertAfter($('.activities legend')).hide(); //error message for activity section
+
 const $validateName = () =>{ //name validation
-    $nameInput = $('#name');
     if($($nameInput).val()===''){ //if ther isn't a value in the name input
-        $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput); //error message for name input
+        $nameInputError.show();
         return false;
     }else{
+        $nameInputError.hide();
         return true;
     }
 };
@@ -173,9 +155,10 @@ const $validateEmail = () =>{ //email validation
     const $emailInputVal = $('#mail').val();
     const isValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test($emailInputVal); //if the value of email input is not a valid email 
     if(isValid){
+        $emailInputError.hide();
         return true;
     }else{
-        $('<p class="error">Must be a valid email address</p>').insertAfter($('#mail')); //error message for email input
+        $emailInputError.show();
         return false;
     }
 };
@@ -188,22 +171,27 @@ const $validateActivity = () =>{ //activity validation
         }
     });
     if($currentActivityChecked.length > 0){ //if array has length
+        $activitiesError.hide();
         return true;
     }else{
-        $('<p class="error">Choose at least one activity</p>').insertAfter($('.activities legend')); //error message for activity section
+        $activitiesError.show();
         return false;
     }
 };
 /***
  ONLY VALIDATED IF THE PAYMENT METHOD IS "CREDIT CARD"
  ***/
+const $cardNumberError = $('<p class="error">Credit card number must have between 13 and 16 numbers</p>').insertAfter($('#cc-num')).hide();
+const $zipError = $('<p class="error">Zip Code must be 5-digit number</p>').insertAfter($('#zip')).hide();
+const $cvvError = $('<p class="error">CVV must be exactly 3 digits long</p>').insertAfter($('#cvv')).hide();
 const $validateCreditCardNumber = () =>{ //credit card validation
     const $cardInputVal = $('#cc-num').val();
     const isValid = /^\d{13,16}$/.test($cardInputVal); //test if value from card input is a number between 13-16 numbers
     if(isValid){
+        $cardNumberError.hide();
         return true;
     }else{
-        $('<p class="error">Credit card number must have between 13 and 16 numbers</p>').insertAfter($('#cc-num'));
+        $cardNumberError.show();
         return false;
     }
 };
@@ -211,9 +199,10 @@ const $validateZipCode = () =>{ //zip code validation
     const $zipInputVal = $('#zip').val();
     const isValid = /^\d{5}$/.test($zipInputVal); //test if value form zip input is a 5-digit number
     if(isValid){
+        $zipError.hide();
         return true;
     }else{
-        $('<p class="error">Zip Code must be 5-digit number</p>').insertAfter($('#zip'));
+        $zipError.show();
         return false;
     }
 };
@@ -221,23 +210,17 @@ const $validateCVV = ()=>{ //CVV validation
     const $cvvInputVal = $('#cvv').val(); 
     const isValid = /^\d{3}$/.test($cvvInputVal); //test if a value from cvv imput is a 3-digit number
     if(isValid){
+        $cvvError.hide();
         return true;
     }else{
-        $('<p class="error">CVV must be exactly 3 digits long</p>').insertAfter($('#cvv'));
+        $cvvError.show();
         return false;
     }
 };
 /***
 MASTER VALIDATORS
  ***/
-//function that sets Paypal or Bitcoin value to true when selected
-const $validatePayment = ()=>{ 
-    if ($paymentSelectMenu.val() == "PayPal" || "Bitcoin") {
-    return true;
-    } else {
-        return false;
-    }
-  };
+
 //function checking credit card validators
 const $validateCreditCard=()=>{
     if($($paymentSelectMenu).val() === 'Credit Card' && $validateCreditCardNumber() === false){
@@ -252,7 +235,7 @@ const $validateCreditCard=()=>{
 };
 //function handling empty form
 const $validateEmpty = () => {
-    if($validateName() === false && $validateEmail() === false && $validateActivity() === false && $validateCreditCard()=== false && $validateZipCode() === false && $validateCVV() === false && $validatePayment() === false){
+    if($validateName() === false && $validateEmail() === false && $validateActivity() === false && $validateCreditCard()=== false && $validateZipCode() === false && $validateCVV() === false ){
         return false;
     } else{
         return true;
@@ -261,25 +244,23 @@ const $validateEmpty = () => {
 };
 //function handling invalid form
 const $validateAll = () => {
-    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || $validateCreditCard()=== false || $validatePayment() === false){
+    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || $validateCreditCard()=== false){
         return false;
     }
     
 };
-$form = $('form');
-
-$form.submit(function(event){
-    if($validateEmpty() === false){
+/***
+FORM SUBMIT EVENT HANDLER
+ ***/
+const $form = $('form');
+//Event handler that prevents submitting the form if it's not correct
+$form.submit(function(event){ 
+    if($validateEmpty() === false){ //prevent submission when requirements were not met
         event.preventDefault();
     } 
-    if($validateAll() === false){
+    if($validateAll() === false){ //prevent submission when requirements were not met
         event.preventDefault();
     }  
 });
-
-// $nameP = $('#name p');
-// $nameP.attr('hidden', 'true');
-
-// TO DO : DON't DISPLAY NAME VALIDATION TWICE
 
 
