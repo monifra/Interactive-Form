@@ -31,7 +31,8 @@ const $paymentSelectMenu = $('#payment'); //selects payment menu
 //form validation
 //adding validators messages to a page
 const $nameInput = $('#name');
-const $nameInputError = $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput).hide(); //error message for name input
+const $blankNameInputError = $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput).hide(); //error message for blank name input
+const $nameInputError = $('<p class="error">Can only contain letters</p>').insertAfter($nameInput).hide(); //error message for name input
 const $emailInputError = $('<p class="error">Must be a valid email address</p>').insertAfter($('#mail')).hide(); //error message for email input
 const $activitiesError = $('<p class="error">Choose at least one activity</p>').insertAfter($('.activities legend')).hide(); //error message for activity section
 //adding optional validators messages to a page
@@ -45,11 +46,12 @@ FUNCTIONS
 ***/
 //FORM VALIDATION & VALIDATION MESSAGES
 const $validateName = () =>{ //name validation
+
     if($($nameInput).val()===''){ //if ther isn't a value in the name input
-        $nameInputError.show();
+        $blankNameInputError.show();
         return false;
     }else{
-        $nameInputError.hide();
+        $blankNameInputError.hide();
         return true;
     }
 };
@@ -64,6 +66,8 @@ const $validateEmail = () =>{ //email validation
         return false;
     }
 };
+
+
 const $validateActivity = () =>{ //activity validation
     const $checkbox = $('.activities input');
     const $currentActivityChecked=[]; //create an empty array
@@ -127,23 +131,47 @@ const $validateCreditCard=()=>{
         return true;
     }
 };
-//function handling empty form
-const $validateEmpty = () => {
-    if($validateName() === false && $validateEmail() === false && $validateActivity() === false && $validateCreditCard()=== false && $validateZipCode() === false && $validateCVV() === false ){
-        return false;
-    } else{
-        return true;
-    }    
-};
-//function handling invalid form
-const $validateAll = () => {
-    if($validateName() === false || $validateEmail() === false || $validateActivity() === false || $validateCreditCard()=== false){
-        return false;
-    }  
-};
+
 /***
  EVENT HANDLERS 
  ***/
+//REAL-LIFE ERROR EVENT HANDLERS
+$('#mail').on('input',function(){
+    $validateEmail();
+    if($validateEmail()===true){
+        $emailInputError.hide();
+    }
+});
+$('#name').on('input',function(){
+    $validateName();
+    if($validateName()===true){
+        $emailInputError.hide();
+    }
+});
+$('.activities').on('input',function(){
+    $validateActivity();
+    if($validateActivity()===true){
+        $activitiesError.hide();
+    }
+});
+$('#cc-num').on('input',function(){
+    $validateCreditCardNumber();
+    if($validateCreditCardNumber()===true){
+        $cardNumberError.hide();
+    }
+});
+$('#zip').on('input',function(){
+    $validateZipCode();
+    if($validateZipCode()===true){
+        $zipError.hide();
+    }
+});
+$('#cvv').on('input',function(){
+    $validateCVV();
+    if($validateCVV()===true){
+        $cvvError.hide();
+    }
+});
 //OTHER JOB SECTION EVENT HANDLER
 $jobSelectMenu.change(function(event){ //if there is a change in job select menu
     $jobs.each(function(i){
@@ -239,14 +267,17 @@ $paymentSelectMenu.change(function(event){  //change event handler that shows an
 /***
 FORM SUBMIT MASTER EVENT HANDLER
  ***/
-//Event handler that prevents submitting the form if it's not correct
+//Event handler that prevents submitting the form if it's not correct and handles all error messages
 $form.submit(function(event){ 
-    if($validateEmpty() === false){ //prevent submission when requirements were not met
-        event.preventDefault();
-    } 
-    if($validateAll() === false){ //prevent submission when requirements were not met
-        event.preventDefault();
-    }  
+     
+        if($validateName() === false || $validateEmail() === false || $validateActivity() === false || $validateCreditCard()=== false){
+            event.preventDefault();
+            if ($validateName() === false){$validateName()}
+            if($validateEmail() === false){$validateEmail()}
+            if($validateActivity()=== false){$validateActivity()}
+            if($validateCreditCard()===false){$validateCreditCard()}
+            if($validateZipCode() === false){$validateZipCode()}
+            if($validateCVV() === false){$validateCVV()}
+        }
 });
-
 
