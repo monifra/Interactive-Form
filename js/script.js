@@ -19,7 +19,7 @@ const $jobs = $('#title>option');
 //t-shirt section 
 const $selectThemeOption = $('#design>option:first-child').attr('disabled', 'true').attr('hidden', 'true'); //hide select theme in a drop down menu
 const $colors = $('#color>option').attr('disabled', 'true').attr('hidden', 'true'); //select colors & hide the colors in a drop down menu
-const $colorsDiv = $('#colors-js-puns').attr('hidden', 'true');
+const $colorsDiv = $('#colors-js-puns').attr('hidden', 'true'); //hides colors section menu
 const $updateColorTextbox =$('#color').val('textbox');
 const $addColorOption =$('#color').prepend('<option value="selectTheme">Please select a T-shirt</option>'); // update color field to "Please select a T-shirt theme"
 const $designSelectMenu = $('#design'); //choose design select element
@@ -39,7 +39,7 @@ const $paymentSelectMenu = $('#payment'); //selects payment menu
 //adding validators messages to a page
 const $nameInput = $('#name');
 const $blankNameInputError = $('<p class="error">Name field can\'t be empty</p>').insertAfter($nameInput).hide(); //error message for blank name input
-const $nameInputError = $('<p class="error">Can only contain letters</p>').insertAfter($nameInput).hide(); //error message for name input
+const $nameInputError = $('<p class="error">Can only contain letters in lowercase or uppercase</p>').insertAfter($nameInput).hide(); //error message for name input
 const $emailInputError = $('<p class="error">Must be a valid email address</p>').insertAfter($('#mail')).hide(); //error message for email input
 const $activitiesError = $('<p class="error">Choose at least one activity</p>').insertAfter($('.activities legend')).hide(); //error message for activity section
 //adding optional validators messages to a page
@@ -147,10 +147,19 @@ const $validateCreditCard=()=>{
  EVENT HANDLERS 
  ***/
 //REAL-LIFE ERROR EVENT HANDLERS
+
+//real-time error message function
+// function realTimeError(element, errorFunction){
+//     errorFunction;
+//     if(errorFunction() === true){
+//         element.hide();
+//     }
+// };
+// $('#mail').on('input',realTimeError($emailInputError,$validateEmail()));
 $('#name').on('input',function(){
     $validateName();
     if($validateName()===true){
-        $emailInputError.hide();
+        $nameInputError.hide();
         $blankNameInputError.hide();
     }
 });
@@ -200,7 +209,7 @@ $designSelectMenu.change(function(event){ //create change event listener on a de
     $('#color option[value="selectTheme"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
     $colors.each(function(i){
         if($(event.target).val() === 'js puns') { // if the user select JS Puns than display cornflowerblue, darkslategrey,gold
-            $colorsDiv.removeAttr('hidden');
+            $colorsDiv.removeAttr('hidden'); //shows colors select menu
             $('#color option[value="cornflowerblue"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="darkslategrey"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="gold"]').removeAttr('disabled').removeAttr('hidden');
@@ -210,7 +219,7 @@ $designSelectMenu.change(function(event){ //create change event listener on a de
             
         }
         if($(event.target).val() === 'heart js') { // else if the user select I love JS then display tomato steel blue and dim grey
-            $colorsDiv.removeAttr('hidden');
+            $colorsDiv.removeAttr('hidden'); //shows colors select menu
             $('#color option[value="tomato"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="steelblue"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="dimgrey"]').removeAttr('disabled').removeAttr('hidden');
@@ -229,7 +238,6 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
     const $activitiesTime = $activitiesCheckboxClicked.attr('data-day-and-time');
     const $checkbox = $('.activities input');
     let $costText = $('.cost'); //selecting p that is holding cost value
-
     if($activitiesCheckboxClicked.prop('checked')){ // if checkbox is checked
         totalCost += $newCheckedCostNumber; // add the cost
         $costText.text('Total: $' + totalCost); //display the cost
@@ -237,7 +245,6 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
         totalCost -= $newCheckedCostNumber; // substract the cost
         $costText.text('Total: $' + totalCost);  //display the cost 
     }
-
     $checkbox.each(function(i){ //looping over all of the inputs and disabled this which happens at the same time that those which were chosen
         const $currentActivity = $checkbox[i];
 
@@ -255,7 +262,6 @@ $activitiesParent.change(function(event){  //listen for a change in an activity 
 //PAYMENT INFORMATION SECTION EVENT HANDLER
 $paymentSelectMenu.change(function(event){  //change event handler that shows and hides informations about chosen payment option
     console.log($(event.target).val());
-
         if($(event.target).val() === 'Credit Card') { //when credit card payment option is chosen
 
             $creditCard.removeAttr('hidden').prop('selected', 'true'); //show credit card inputs 
@@ -274,7 +280,6 @@ $paymentSelectMenu.change(function(event){  //change event handler that shows an
             $creditCard.attr('hidden', 'true');
             $payPal.attr('hidden', 'true');
         }
-
 });
 /***
 FORM SUBMIT MASTER EVENT HANDLER
@@ -292,4 +297,3 @@ $form.submit(function(event){
             if($validateCVV() === false){$validateCVV()}
         }
 });
-
