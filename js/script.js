@@ -1,7 +1,13 @@
 /*************
  Techdegree Project 3 Interactive_Form
  *************/
-//Interactive Form Project is an interactive registration form for tech conference.
+/*
+Interactive Form Project is an interactive registration form for tech conference.
+Extra credit features:
+-Hide colors select menu untill t-shirt theme is chosen
+-All of the inputs have real-time error messages,
+-Name Input error message changes depending on the error.
+*/
 /***
 VARIABLES
 ***/
@@ -13,6 +19,7 @@ const $jobs = $('#title>option');
 //t-shirt section 
 const $selectThemeOption = $('#design>option:first-child').attr('disabled', 'true').attr('hidden', 'true'); //hide select theme in a drop down menu
 const $colors = $('#color>option').attr('disabled', 'true').attr('hidden', 'true'); //select colors & hide the colors in a drop down menu
+const $colorsDiv = $('#colors-js-puns').attr('hidden', 'true');
 const $updateColorTextbox =$('#color').val('textbox');
 const $addColorOption =$('#color').prepend('<option value="selectTheme">Please select a T-shirt</option>'); // update color field to "Please select a T-shirt theme"
 const $designSelectMenu = $('#design'); //choose design select element
@@ -46,13 +53,20 @@ FUNCTIONS
 ***/
 //FORM VALIDATION & VALIDATION MESSAGES
 const $validateName = () =>{ //name validation
-
-    if($($nameInput).val()===''){ //if ther isn't a value in the name input
+    const $nameInputVal =  $('#name').val();
+    const isValid = /^[A-Za-z]+$/.test($nameInputVal);
+    if($nameInputVal ===''){ //if ther isn't a value in the name input
         $blankNameInputError.show();
+        $nameInputError.hide();
         return false;
-    }else{
+    }else if(isValid){
         $blankNameInputError.hide();
+        $nameInputError.hide();
         return true;
+    }else{
+        $nameInputError.show();
+        $blankNameInputError.hide();
+        return false;
     }
 };
 const $validateEmail = () =>{ //email validation
@@ -66,8 +80,6 @@ const $validateEmail = () =>{ //email validation
         return false;
     }
 };
-
-
 const $validateActivity = () =>{ //activity validation
     const $checkbox = $('.activities input');
     const $currentActivityChecked=[]; //create an empty array
@@ -131,20 +143,20 @@ const $validateCreditCard=()=>{
         return true;
     }
 };
-
 /***
  EVENT HANDLERS 
  ***/
 //REAL-LIFE ERROR EVENT HANDLERS
-$('#mail').on('input',function(){
-    $validateEmail();
-    if($validateEmail()===true){
-        $emailInputError.hide();
-    }
-});
 $('#name').on('input',function(){
     $validateName();
     if($validateName()===true){
+        $emailInputError.hide();
+        $blankNameInputError.hide();
+    }
+});
+$('#mail').on('input',function(){
+    $validateEmail();
+    if($validateEmail()===true){
         $emailInputError.hide();
     }
 });
@@ -188,7 +200,7 @@ $designSelectMenu.change(function(event){ //create change event listener on a de
     $('#color option[value="selectTheme"]').attr('disabled', 'true').attr('hidden', 'true').removeAttr('selected');
     $colors.each(function(i){
         if($(event.target).val() === 'js puns') { // if the user select JS Puns than display cornflowerblue, darkslategrey,gold
-            
+            $colorsDiv.removeAttr('hidden');
             $('#color option[value="cornflowerblue"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="darkslategrey"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="gold"]').removeAttr('disabled').removeAttr('hidden');
@@ -198,7 +210,7 @@ $designSelectMenu.change(function(event){ //create change event listener on a de
             
         }
         if($(event.target).val() === 'heart js') { // else if the user select I love JS then display tomato steel blue and dim grey
-            
+            $colorsDiv.removeAttr('hidden');
             $('#color option[value="tomato"]').removeAttr('disabled').removeAttr('hidden').prop('selected', 'true');
             $('#color option[value="steelblue"]').removeAttr('disabled').removeAttr('hidden');
             $('#color option[value="dimgrey"]').removeAttr('disabled').removeAttr('hidden');
