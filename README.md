@@ -11,8 +11,13 @@ I've decided to work with provided CSS and make it my own. I've worked with font
 
 Used techniques:
 
-- Progressive Enhancement,
-- Unobtrusive JavaScript,
-- jQuery Library,
-- Regular Expressions
+-Progressive Enhancement,
+-Unobtrusive JavaScript,
+-jQuery Library,
+-Regular Expressions
+
+Extra Credit Feautures:
+-Hide colors select menu untill t-shirt theme is chosen
+-All of the inputs have real-time error messages,
+-Name Input error message changes depending on the error.
  
